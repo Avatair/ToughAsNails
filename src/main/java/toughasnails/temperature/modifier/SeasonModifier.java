@@ -99,11 +99,11 @@ public class SeasonModifier extends TemperatureModifier
 	            break;
 	        }
 	        
-	        delta -= ModConfig.temperature.earlySummerModifier;		// mid summer temperature is used as reference
+	        delta -= ModConfig.temperature.lateSpringModifier;		// mid summer temperature is used as reference
 	        if( isIndoor )
-	        	delta /= 4;
+	        	delta /= 2;
 	        
-	        temperatureLevel += delta + ModConfig.temperature.earlySummerModifier;
+	        temperatureLevel += delta + ModConfig.temperature.lateSpringModifier;
         }
         debugger.end(temperatureLevel);
         
