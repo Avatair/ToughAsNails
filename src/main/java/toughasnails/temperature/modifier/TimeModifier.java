@@ -3,6 +3,8 @@ package toughasnails.temperature.modifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import toughasnails.api.season.Season;
+import toughasnails.api.season.SeasonHelper;
 import toughasnails.api.temperature.Temperature;
 import toughasnails.init.ModConfig;
 import toughasnails.temperature.TemperatureDebugger;
@@ -22,7 +24,8 @@ public class TimeModifier extends TemperatureModifier
         Biome biome = world.getBiome(player.getPosition());
         long worldTime = world.getWorldTime();
         
-        float extremityModifier = BiomeUtils.getBiomeTempExtremity(biome);
+        Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
+        float extremityModifier = BiomeUtils.getBiomeTempExtremity(biome, season);
         //Reaches the highest point during the middle of the day and at midnight. Normalized to be between -1 and 1
         float timeNorm = (-Math.abs(((worldTime + 6000) % 24000.0F) - 12000.0F) + 6000.0F) / 6000.0F;
         

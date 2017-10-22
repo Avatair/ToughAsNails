@@ -28,6 +28,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import toughasnails.api.ITANBlock;
 import toughasnails.api.item.TANItems;
+import toughasnails.api.season.Season;
+import toughasnails.api.season.SeasonHelper;
+import toughasnails.handler.season.SeasonHandler;
 import toughasnails.item.ItemTANBlock;
 
 public class BlockRainCollector extends Block implements ITANBlock
@@ -167,7 +170,9 @@ public class BlockRainCollector extends Block implements ITANBlock
     {
     	if (worldIn.rand.nextInt(4) == 1)
         {
-	        float f = worldIn.getBiome(pos).getFloatTemperature(pos);
+//	        float f = worldIn.getBiome(pos).getFloatTemperature(pos);
+    		Season season = SeasonHelper.getSeasonData(worldIn).getSubSeason().getSeason();
+    		float f = SeasonHelper.getModifiedFloatTemperatureAtPos( worldIn.getBiome(pos), pos, season );
 	
 	        if (worldIn.getBiomeProvider().getTemperatureAtHeight(f, pos.getY()) >= 0.15F)
 	        {

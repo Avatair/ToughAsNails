@@ -36,7 +36,7 @@ public class SeasonASMHelper
     public static boolean canSnowAtInSeason(World world, BlockPos pos, boolean checkLight, Season season)
     {
         Biome biome = world.getBiome(pos);
-        float temperature = biome.getFloatTemperature(pos);
+        float temperature = SeasonHelper.getModifiedFloatTemperatureAtPos(biome, pos, season);
         
         //If we're in winter, the temperature can be anything equal to or below 0.7
         if (!SeasonHelper.canSnowAtTempInSeason(season, temperature))
@@ -109,7 +109,12 @@ public class SeasonASMHelper
     public static boolean isRainingAtInSeason(World world, BlockPos pos, Season season)
     {
         Biome biome = world.getBiome(pos);
-        return biome.getEnableSnow() && season != Season.WINTER ? false : (world.canSnowAt(pos, false) ? false : biome.canRain());
+        boolean bEnableSnow;
+        if( biome == Biomes.PLAINS )
+        	bEnableSnow = true;
+        else
+        	bEnableSnow = biome.getEnableSnow();
+        return bEnableSnow && season != Season.WINTER ? false : (world.canSnowAt(pos, false) ? false : biome.canRain());
     }
     
     ///////////////////

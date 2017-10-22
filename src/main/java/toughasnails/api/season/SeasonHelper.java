@@ -7,6 +7,7 @@
  ******************************************************************************/
 package toughasnails.api.season;
 
+import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -52,14 +53,26 @@ public class SeasonHelper
         return temperature < 0.15F || (season == Season.WINTER && temperature <= 0.7F && SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS));
     }
 
-    public interface ISeasonDataProvider
-    {
-        ISeasonData getServerSeasonData(World world);
-        ISeasonData getClientSeasonData();
+    private static float modifyTemperature(float temperature, Biome biome, Season season ) {
+		if( biome == Biomes.PLAINS && season == Season.WINTER ) {
+			temperature -= 0.1F;
+		}
+		
+		return temperature;
+    }
+    
+    public static float getModifiedTemperatureForBiome(Biome biome, Season season) {
+		float temperature = biome.getTemperature();
+		return modifyTemperature(temperature, biome, season);
+    }
+    
+    public static float getModifiedFloatTemperatureAtPos(Biome biome, BlockPos pos, Season season) {
+		float temperature = biome.getFloatTemperature(pos);
+		return modifyTemperature(temperature, biome, season);
     }
 
 	public static float getSeasonFloatTemperature(Biome biome, BlockPos pos, Season season) {
-        if (biome.getTemperature() <= 0.7F && season == Season.WINTER && SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS))
+        if ( getModifiedTemperatureForBiome(biome, season) <= 0.7F && season == Season.WINTER && SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS))
         {
             return 0.0F;
         }
@@ -68,4 +81,10 @@ public class SeasonHelper
             return biome.getFloatTemperature(pos);
         }
 	}
+	
+    public interface ISeasonDataProvider
+    {
+        ISeasonData getServerSeasonData(World world);
+        ISeasonData getClientSeasonData();
+    }
 }

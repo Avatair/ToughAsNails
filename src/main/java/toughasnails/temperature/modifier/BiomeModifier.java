@@ -3,6 +3,8 @@ package toughasnails.temperature.modifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import toughasnails.api.season.Season;
+import toughasnails.api.season.SeasonHelper;
 import toughasnails.api.temperature.Temperature;
 import toughasnails.init.ModConfig;
 import toughasnails.temperature.TemperatureDebugger;
@@ -27,7 +29,8 @@ public class BiomeModifier extends TemperatureModifier
         Biome biomeEast = world.getBiome(player.getPosition().add(10, 0, 0));
         Biome biomeWest = world.getBiome(player.getPosition().add(-10, 0, 0));
         
-        float biomeTemp = ((BiomeUtils.getBiomeTempNorm(biome) + BiomeUtils.getBiomeTempNorm(biomeNorth) + BiomeUtils.getBiomeTempNorm(biomeSouth) + BiomeUtils.getBiomeTempNorm(biomeEast) + BiomeUtils.getBiomeTempNorm(biomeWest)) / 5.0F);
+        Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
+        float biomeTemp = ((BiomeUtils.getBiomeTempNorm(biome, season) + BiomeUtils.getBiomeTempNorm(biomeNorth, season) + BiomeUtils.getBiomeTempNorm(biomeSouth, season) + BiomeUtils.getBiomeTempNorm(biomeEast, season) + BiomeUtils.getBiomeTempNorm(biomeWest, season)) / 5.0F);
         
         //Denormalize, multiply by the max temp offset, add to the current temp
         int newTemperatureLevel = temperature.getRawValue() + (int)Math.round((biomeTemp * 2.0F - 1.0F) * ModConfig.temperature.maxBiomeTempOffset);
