@@ -8,6 +8,7 @@
 package toughasnails.temperature.modifier;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import toughasnails.api.config.SeasonsOption;
 import toughasnails.api.config.SyncedConfig;
@@ -32,6 +33,8 @@ public class SeasonModifier extends TemperatureModifier
         int temperatureLevel = temperature.getRawValue();
         SubSeason season = SeasonHelper.getSeasonData(world).getSubSeason();
         
+        boolean isIndoor = checkIndoor(world, player);
+        
         if (!(SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS)))
         {
         	season = SubSeason.MID_SUMMER;
@@ -41,63 +44,88 @@ public class SeasonModifier extends TemperatureModifier
         
         if (world.provider.isSurfaceWorld())
         {
+        	int delta = 0;
 	        switch (season)
 	        {
 	        case EARLY_SPRING:
-	            temperatureLevel += ModConfig.temperature.earlySpringModifier;
+	            delta = ModConfig.temperature.earlySpringModifier;
                 break;
 
 			case MID_SPRING:
-				temperatureLevel += ModConfig.temperature.midSpringModifier;
+				delta = ModConfig.temperature.midSpringModifier;
 				break;
                 
 	        case LATE_SPRING:
-	            temperatureLevel += ModConfig.temperature.lateSpringModifier;
+	        	delta = ModConfig.temperature.lateSpringModifier;
                 break;
                 
 	        case EARLY_SUMMER:
-	            temperatureLevel += ModConfig.temperature.earlySummerModifier;
+	        	delta = ModConfig.temperature.earlySummerModifier;
 	            break;
 	            
 	        case MID_SUMMER:
-	            temperatureLevel += ModConfig.temperature.midSummerModifier;
+	        	delta = ModConfig.temperature.midSummerModifier;
 	            break;
 	            
 	        case LATE_SUMMER:
-	            temperatureLevel += ModConfig.temperature.lateSummerModifier;
+	        	delta = ModConfig.temperature.lateSummerModifier;
 	            break;
 	            
 	        case EARLY_AUTUMN:
-	            temperatureLevel += ModConfig.temperature.earlyAutumnModifier;
+	        	delta = ModConfig.temperature.earlyAutumnModifier;
 	            break;
 
 			case MID_AUTUMN:
-				temperatureLevel += ModConfig.temperature.midAutumnModifier;
+				delta = ModConfig.temperature.midAutumnModifier;
 				break;
 	            
 	        case LATE_AUTUMN:
-	            temperatureLevel += ModConfig.temperature.lateAutumnModifier;
+	        	delta = ModConfig.temperature.lateAutumnModifier;
 	            break;
 	            
 	        case EARLY_WINTER:
-	            temperatureLevel += ModConfig.temperature.earlyWinterModifier;
+	        	delta = ModConfig.temperature.earlyWinterModifier;
 	            break;
 	            
 	        case MID_WINTER:
-	            temperatureLevel += ModConfig.temperature.midWinterModifier;
+	        	delta = ModConfig.temperature.midWinterModifier;
 	            break;
 	            
 	        case LATE_WINTER:
-                temperatureLevel += ModConfig.temperature.lateWinterModifier;
+	        	delta = ModConfig.temperature.lateWinterModifier;
                 break;
 	            
 	        default:
 	            break;
 	        }
+	        
+	        delta -= ModConfig.temperature.lateSpringModifier;		// mid summer temperature is used as reference
+	        if( isIndoor )
+	        	delta /= 2;
+	        
+	        temperatureLevel += delta + ModConfig.temperature.lateSpringModifier;
         }
         debugger.end(temperatureLevel);
         
         return new Temperature(temperatureLevel);
     }
+
+	private boolean checkIndoor(World world, EntityPlayer player) {
+		// TODO more logic please!
+		
+		return checkUnderOverhang(world, player);
+	}
+
+	private boolean checkUnderOverhang(World world, EntityPlayer player) {
+		BlockPos pos = player.getPosition();
+		for( int iX = -1; iX <= 1; iX ++ ) {
+			for( int iZ = -1; iZ <= 1; iZ ++ ) {
+				if( world.getHeight(pos.getX() + iX, pos.getZ() + iZ) < pos.getY() + 2 )
+					return false;
+			}
+		}
+		
+		return true;
+	}
 
 }
