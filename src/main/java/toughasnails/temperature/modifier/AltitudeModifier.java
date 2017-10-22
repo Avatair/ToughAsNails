@@ -7,6 +7,7 @@ import toughasnails.api.temperature.Temperature;
 import toughasnails.init.ModConfig;
 import toughasnails.temperature.TemperatureDebugger;
 import toughasnails.temperature.TemperatureDebugger.Modifier;
+import toughasnails.util.GeoUtils;
 
 public class AltitudeModifier extends TemperatureModifier
 {
@@ -23,9 +24,12 @@ public class AltitudeModifier extends TemperatureModifier
 
         debugger.start(Modifier.ALTITUDE_TARGET, newTemperatureLevel);
         
+        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
+        
         if (world.provider.isSurfaceWorld())
         {
         	newTemperatureLevel -= MathHelper.abs(MathHelper.floor(((64 - player.posY) / 64) * ModConfig.temperature.altitudeModifier) + 1);
+        	newTemperatureLevel += MathHelper.floor(((float)amountUnderground / 64) * (18 + ModConfig.temperature.altitudeModifier));	// TODO: Make a config out of it! 
         }
         
         debugger.end(newTemperatureLevel);

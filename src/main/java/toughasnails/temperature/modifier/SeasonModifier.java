@@ -19,6 +19,7 @@ import toughasnails.api.config.GameplayOption;
 import toughasnails.init.ModConfig;
 import toughasnails.temperature.TemperatureDebugger;
 import toughasnails.temperature.TemperatureDebugger.Modifier;
+import toughasnails.util.GeoUtils;
 
 public class SeasonModifier extends TemperatureModifier
 {
@@ -33,7 +34,8 @@ public class SeasonModifier extends TemperatureModifier
         int temperatureLevel = temperature.getRawValue();
         SubSeason season = SeasonHelper.getSeasonData(world).getSubSeason();
         
-        boolean isIndoor = checkIndoor(world, player);
+        boolean isIndoor = GeoUtils.checkIndoor(world, player);
+        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
         
         if (!(SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS)))
         {
@@ -101,7 +103,8 @@ public class SeasonModifier extends TemperatureModifier
 	        
 	        delta -= ModConfig.temperature.lateSpringModifier;		// mid summer temperature is used as reference
 	        if( isIndoor )
-	        	delta /= 2;
+	        	delta /= 1.5;
+	        delta *= 1.0f - ((float)amountUnderground / 64);
 	        
 	        temperatureLevel += delta + ModConfig.temperature.lateSpringModifier;
         }
@@ -109,23 +112,4 @@ public class SeasonModifier extends TemperatureModifier
         
         return new Temperature(temperatureLevel);
     }
-
-	private boolean checkIndoor(World world, EntityPlayer player) {
-		// TODO more logic please!
-		
-		return checkUnderOverhang(world, player);
-	}
-
-	private boolean checkUnderOverhang(World world, EntityPlayer player) {
-		BlockPos pos = player.getPosition();
-		for( int iX = -1; iX <= 1; iX ++ ) {
-			for( int iZ = -1; iZ <= 1; iZ ++ ) {
-				if( world.getHeight(pos.getX() + iX, pos.getZ() + iZ) < pos.getY() + 2 )
-					return false;
-			}
-		}
-		
-		return true;
-	}
-
 }
