@@ -10,6 +10,7 @@ import toughasnails.init.ModConfig;
 import toughasnails.temperature.TemperatureDebugger;
 import toughasnails.temperature.TemperatureDebugger.Modifier;
 import toughasnails.util.BiomeUtils;
+import toughasnails.util.GeoUtils;
 
 public class BiomeModifier extends TemperatureModifier
 {
@@ -32,8 +33,14 @@ public class BiomeModifier extends TemperatureModifier
         Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
         float biomeTemp = ((BiomeUtils.getBiomeTempNorm(biome, season) + BiomeUtils.getBiomeTempNorm(biomeNorth, season) + BiomeUtils.getBiomeTempNorm(biomeSouth, season) + BiomeUtils.getBiomeTempNorm(biomeEast, season) + BiomeUtils.getBiomeTempNorm(biomeWest, season)) / 5.0F);
         
+        boolean isIndoor = GeoUtils.checkIndoor(world, player);
+//        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
+        
         //Denormalize, multiply by the max temp offset, add to the current temp
-        int newTemperatureLevel = temperature.getRawValue() + (int)Math.round((biomeTemp * 2.0F - 1.0F) * ModConfig.temperature.maxBiomeTempOffset);
+        float delta = Math.round((biomeTemp * 2.0F - 1.0F) * ModConfig.temperature.maxBiomeTempOffset);
+        if( isIndoor )
+        	delta /= 2.0;
+        int newTemperatureLevel = temperature.getRawValue() + (int)delta;
         
         debugger.start(Modifier.BIOME_TEMPERATURE_TARGET, temperature.getRawValue());
         debugger.end(newTemperatureLevel);
