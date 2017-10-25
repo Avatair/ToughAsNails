@@ -219,7 +219,7 @@ public class SeasonSavedData extends WorldSavedData
 
     public int getJournalIndexAfterTime(long timeStamp)
     {
-        // TODO: Use subdivision to find the time point in approx. O(log n)
+        // FIXME SEASON: Use subdivision to find the time point in approx. O(log n)
         // steps.
 
         for (int i = 0; i < journal.size(); i++)

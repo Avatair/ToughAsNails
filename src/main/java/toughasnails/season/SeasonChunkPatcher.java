@@ -34,6 +34,7 @@ public class SeasonChunkPatcher
     /** 
      * Secured by multi-threading access
      */
+    // FIXME SEASON: Don't use a map.
     public Map<ChunkKey, Chunk> pendingChunks = new HashMap<ChunkKey, Chunk>(); 
 
     public SeasonChunkPatcher()
@@ -91,6 +92,7 @@ public class SeasonChunkPatcher
         SeasonSavedData seasonData = SeasonHandler.getSeasonSavedData(world);
 
         // Iterate through actively updated chunks
+        // FIXME SEASON: Too irregular, to high update frequency 
         Iterator<Chunk> iter = world.getPersistentChunkIterable(world.getPlayerChunkMap().getChunkIterator());
         while (iter.hasNext())
         {
@@ -121,6 +123,7 @@ public class SeasonChunkPatcher
         }
 
         // Iterate through loaded chunks to find non active chunks
+        // FIXME Season: Expensive 2!
         for (Chunk loadedChunk : provider.getLoadedChunks())
         {
             assert world == loadedChunk.getWorld();
@@ -141,6 +144,7 @@ public class SeasonChunkPatcher
         }
 
         // Remove dead entries
+        // FIXME SEASON: Expensive 1!
         Iterator<Map.Entry<ChunkKey, ChunkData>> entryIter = seasonData.managedChunks.entrySet().iterator();
         while (entryIter.hasNext())
         {
@@ -232,6 +236,7 @@ public class SeasonChunkPatcher
         {
             synchronized (chunkLock)
             {
+                // FIXME Season: Expensive 1
                 chunksInProcess.putAll(pendingChunks);
                 pendingChunks = chunksInProcess;
             }

@@ -70,7 +70,7 @@ public class TemperatureOverlayHandler
         
         if (event.getType() == ElementType.PORTAL && SyncedConfig.getBooleanValue(TemperatureOption.ENABLE_TEMPERATURE))
         {
-            if (!player.capabilities.isCreativeMode) drawTemperatureVignettes(width, height, temperature);
+//            if (!player.capabilities.isCreativeMode) drawTemperatureVignettes(width, height, temperature);
         }
         else if (event.getType() == ElementType.EXPERIENCE && SyncedConfig.getBooleanValue(TemperatureOption.ENABLE_TEMPERATURE))
         {
