@@ -48,11 +48,11 @@ public class ArmorModifier extends TemperatureModifier
         {
 	        if (inventory.armorInventory.get(2).getItem() == TANItems.wool_chestplate)
 	        {
-	        	newTemperatureLevel += ModConfig.temperature.woolArmorModifier;
+	        	newTemperatureLevel += (ModConfig.temperature.woolArmorModifier * 2);
 	        }
 	        if (inventory.armorInventory.get(2).getItem() == TANItems.jelled_slime_chestplate)
 	        {
-	        	newTemperatureLevel += ModConfig.temperature.jelledSlimeArmorModifier;
+	        	newTemperatureLevel += (ModConfig.temperature.jelledSlimeArmorModifier * 2);
 	        }
         }
         
@@ -61,11 +61,11 @@ public class ArmorModifier extends TemperatureModifier
         {
 	        if (inventory.armorInventory.get(1).getItem() == TANItems.wool_leggings)
 	        {
-	        	newTemperatureLevel += ModConfig.temperature.woolArmorModifier;
+	        	newTemperatureLevel += (ModConfig.temperature.woolArmorModifier * 2);
 	        }
 	        if (inventory.armorInventory.get(1).getItem() == TANItems.jelled_slime_leggings)
 	        {
-	        	newTemperatureLevel += ModConfig.temperature.jelledSlimeArmorModifier;
+	        	newTemperatureLevel += (ModConfig.temperature.jelledSlimeArmorModifier * 2);
 	        }
         }
         

@@ -27,7 +27,7 @@ public class TimeModifier extends TemperatureModifier
         long worldTime = world.getWorldTime();
         
         boolean isIndoor = GeoUtils.checkIndoor(world, player);
-        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
+//        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
         
         Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
         float extremityModifier = BiomeUtils.getBiomeTempExtremity(biome, season);
@@ -42,18 +42,20 @@ public class TimeModifier extends TemperatureModifier
         if (world.provider.isSurfaceWorld())
         {
         	float delta = getTemperatureDelta(timeNorm, extremityModifier);
-        	if( amountUnderground > 0 ) {
+/*        	if( amountUnderground > 0 ) {
         		float timeNormUnderground = getNormForTime(0);	// Peak time
         		float deltaIndoor = getTemperatureDelta(timeNormUnderground, extremityModifier);
         		
         		float factor = MathHelper.clamp((float)amountUnderground / 64, 0.0f, 1.0f);
         		delta = delta + (deltaIndoor - delta) * factor;
         	}
-        	else if( isIndoor ) {
-        		float timeNormIndoor = getNormForTime(6000);	// Peak time
-        		float deltaIndoor = getTemperatureDelta(timeNormIndoor, extremityModifier);
+        	else */
+        	if( isIndoor ) {
+//        		float timeNormIndoor = getNormForTime(6000);	// Peak time
+//        		float deltaIndoor = getTemperatureDelta(timeNormIndoor, extremityModifier);
         		
-        		delta = delta + (deltaIndoor - delta) * 0.5f;
+//        		delta = delta + (deltaIndoor - delta) * 0.5f;
+        	    delta *= 0.5;
         	}
         	newTemperatureLevel += delta;
         }
@@ -68,6 +70,6 @@ public class TimeModifier extends TemperatureModifier
     }
     
     private float getTemperatureDelta(float timeNorm, float extremityModifier) {
-    	return ModConfig.temperature.timeModifier * timeNorm * (Math.max(1.0F, extremityModifier * ModConfig.temperature.timeExtremityMultiplier));
+    	return ModConfig.temperature.timeModifier * timeNorm * extremityModifier * ModConfig.temperature.timeExtremityMultiplier/* (Math.max(1.0F, extremityModifier * ModConfig.temperature.timeExtremityMultiplier))*/;
     }
 }

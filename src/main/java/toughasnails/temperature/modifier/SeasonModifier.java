@@ -35,7 +35,7 @@ public class SeasonModifier extends TemperatureModifier
         SubSeason season = SeasonHelper.getSeasonData(world).getSubSeason();
         
         boolean isIndoor = GeoUtils.checkIndoor(world, player);
-        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
+//        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
         
         if (!(SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS)))
         {
@@ -101,12 +101,12 @@ public class SeasonModifier extends TemperatureModifier
 	            break;
 	        }
 	        
-	        delta -= ModConfig.temperature.lateSpringModifier;		// mid summer temperature is used as reference
+	        delta -= 1; //ModConfig.temperature.lateSpringModifier;		// mid summer temperature is used as reference
 	        if( isIndoor )
-	        	delta /= 1.5;
-	        delta *= 1.0f - ((float)amountUnderground / 64);
+	        	delta /= 2; // /= 1.5;
+//	        delta *= 1.0f - ((float)amountUnderground / 64);
 	        
-	        temperatureLevel += delta + ModConfig.temperature.lateSpringModifier;
+	        temperatureLevel += delta + 1; // ModConfig.temperature.lateSpringModifier;
         }
         debugger.end(temperatureLevel);
         

@@ -37,9 +37,9 @@ public class BiomeModifier extends TemperatureModifier
 //        int amountUnderground = GeoUtils.getAmountUnderground(world, player);
         
         //Denormalize, multiply by the max temp offset, add to the current temp
-        float delta = Math.round((biomeTemp * 2.0F - 1.0F) * ModConfig.temperature.maxBiomeTempOffset);
+        float delta = /*Math.round */((biomeTemp * 2.0F - 1.0F) * ModConfig.temperature.maxBiomeTempOffset);
         if( isIndoor )
-        	delta /= 2.0;
+        	delta *= 0.5;
         int newTemperatureLevel = temperature.getRawValue() + (int)delta;
         
         debugger.start(Modifier.BIOME_TEMPERATURE_TARGET, temperature.getRawValue());

@@ -1,15 +1,40 @@
 package toughasnails.util;
 
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 
 public class GeoUtils {
 	public static boolean checkIndoor(World world, EntityPlayer player) {
 		// TODO more logic please!
-		
-		return getAmountUnderOverhang(world, player) > 0;
+	    
+	    BlockPos playerPos = player.getPosition();
+        MutableBlockPos pos = new MutableBlockPos();
+        for( int iX = -1; iX <= 1; iX ++ ) {
+            for( int iZ = -1; iZ <= 1; iZ ++ ) {
+                pos.setPos(playerPos.getX() + iX,  0,  playerPos.getZ() + iZ);
+                int iY = world.getHeight(pos.getX(), pos.getZ());
+                while( -- iY >= playerPos.getY() + 2 ) {
+                    if( iY <= 0 )
+                        break;
+                    pos.setY(iY);
+                    IBlockState state = world.getBlockState(pos);
+                    if( state.getBlock() instanceof BlockLeaves )
+                        continue;
+                    if( state.isOpaqueCube() )
+                        break;
+                }
+                if( iY < playerPos.getY() + 2 )
+                    return false;
+            }
+        }
+        
+        return true;
 	}
 	
 	public static int getAmountUnderground(World world, EntityPlayer player) {

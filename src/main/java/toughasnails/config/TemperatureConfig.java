@@ -59,7 +59,7 @@ public class TemperatureConfig extends ConfigHandler
             altitudeModifier = config.getInt("Altitude Modifier", MODIFIER_SETTINGS, 3, 0, Integer.MAX_VALUE, "The maximum to increase/decrease temperature by depending on the altitude");
             jelledSlimeArmorModifier = config.getInt("Jelled Slime Armor Modifier", MODIFIER_SETTINGS, -1, Integer.MIN_VALUE, 0, "The amount to decrease the temperature by per unit of jelled slime armor");
             woolArmorModifier = config.getInt("Wool Armor Modifier", MODIFIER_SETTINGS, 1, 0, Integer.MAX_VALUE, "The amount to increase the temperature by per unit of wool armor");
-            maxBiomeTempOffset = config.getInt("Max Biome Temperature Modifier", MODIFIER_SETTINGS, 10, 0, Integer.MAX_VALUE, "The maximum to increase/decrease temperature by depending on the biome");
+            maxBiomeTempOffset = config.getInt("Max Biome Temperature Modifier", MODIFIER_SETTINGS, 6, 0, Integer.MAX_VALUE, "The maximum to increase/decrease temperature by depending on the biome");
             sprintingModifier = config.getInt("Sprinting Modifier", MODIFIER_SETTINGS, 3, 0, Integer.MAX_VALUE, "The amount to increase the temperature by when sprinting");
 
             earlySpringModifier = config.getInt("Early Spring Modifier", MODIFIER_SETTINGS, -5, Integer.MIN_VALUE, Integer.MAX_VALUE, "The amount to increase/decrease the temperature by in this sub season");
@@ -78,8 +78,8 @@ public class TemperatureConfig extends ConfigHandler
             midWinterModifier = config.getInt("Mid Winter Modifier", MODIFIER_SETTINGS, -15, Integer.MIN_VALUE, Integer.MAX_VALUE, "The amount to increase/decrease the temperature by in this sub season");
             lateWinterModifier = config.getInt("Late Winter Modifier", MODIFIER_SETTINGS, -10, Integer.MIN_VALUE, Integer.MAX_VALUE, "The amount to increase/decrease the temperature by in this sub season");
 
-            timeModifier = config.getInt("Time Modifier", MODIFIER_SETTINGS, 9, 0, Integer.MAX_VALUE, "The amount to increase/decrease the temperature by in the middle of the day/night");
-            timeExtremityMultiplier = config.getFloat("Time Extremity Multiplier", MODIFIER_SETTINGS, 1.25F, 0, Float.MAX_VALUE, "The amount to multiply the temperature increment/decrement by in the middle of the day/night based on how extreme the biome temperature is");
+            timeModifier = config.getInt("Time Modifier", MODIFIER_SETTINGS, 4, 0, Integer.MAX_VALUE, "The amount to increase/decrease the temperature by in the middle of the day/night");
+            timeExtremityMultiplier = config.getFloat("Time Extremity Multiplier", MODIFIER_SETTINGS, 1.4F, 0, Float.MAX_VALUE, "The amount to multiply the temperature increment/decrement by in the middle of the day/night based on how extreme the biome temperature is");
 
             wetModifier = config.getInt("Wet Modifier", MODIFIER_SETTINGS, -7, Integer.MIN_VALUE, 0, "The amount to decrease the temperature by when wet");
             snowModifier = config.getInt("Snow Modifier", MODIFIER_SETTINGS, -10, Integer.MIN_VALUE, 0, "The amount to decrease the temperature by when snowing");

@@ -2,11 +2,13 @@ package toughasnails.temperature;
 
 import static toughasnails.api.temperature.TemperatureScale.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import com.google.common.collect.Sets;
@@ -46,7 +48,7 @@ public class TemperatureHandler extends StatHandlerBase implements ITemperature
     private int temperatureLevel;
     private int prevTemperatureLevel;
     private int temperatureTimer;
-    private Set<TemperatureModifier> temperatureModifiers;
+    private ArrayList<TemperatureModifier> temperatureModifiers;
     private Map<String, TemperatureModifier.ExternalModifier> externalModifiers;
     
     public final TemperatureDebugger debugger = new TemperatureDebugger();
@@ -56,9 +58,9 @@ public class TemperatureHandler extends StatHandlerBase implements ITemperature
         this.temperatureLevel = TemperatureScale.getScaleTotal() / 2;
         this.prevTemperatureLevel = this.temperatureLevel;
 
-        this.temperatureModifiers = Sets.newHashSet(new AltitudeModifier(debugger), new ArmorModifier(debugger), new BiomeModifier(debugger),
+        this.temperatureModifiers = Lists.newArrayList(new ArmorModifier(debugger), new BiomeModifier(debugger),
                 new PlayerStateModifier(debugger), new ObjectProximityModifier(debugger), new WeatherModifier(debugger), new TimeModifier(debugger),
-                new SeasonModifier(debugger));
+                new SeasonModifier(debugger), new AltitudeModifier(debugger));
 
         this.externalModifiers = Maps.newHashMap();
     }
