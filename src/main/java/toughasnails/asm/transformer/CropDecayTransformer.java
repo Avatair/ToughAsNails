@@ -100,6 +100,15 @@ public class CropDecayTransformer implements IClassTransformer
             decayInsns.add(new InsnNode(Opcodes.IRETURN));
             decayMethod.instructions.add(decayInsns);
             classNode.methods.add(decayMethod);
+            
+            // Implement getType() method, which returns the crop type or 0.
+            MethodNode getTypeMethod = new MethodNode(Opcodes.ACC_PUBLIC, "getType", "()I", null, null);
+            InsnList getTypeInsns = new InsnList();
+            getTypeInsns.add(new VarInsnNode(Opcodes.ALOAD, 0));
+            getTypeInsns.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "toughasnails/season/SeasonASMHelper", "getCropType", ObfHelper.createMethodDescriptor(obfuscatedClass, "I", "net/minecraft/block/Block"), false));
+            getTypeInsns.add(new InsnNode(Opcodes.IRETURN));
+            getTypeMethod.instructions.add(getTypeInsns);
+            classNode.methods.add(getTypeMethod);
         }
         
         //Encode the altered class back into bytes

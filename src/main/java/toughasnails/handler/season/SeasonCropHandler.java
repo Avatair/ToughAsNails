@@ -31,12 +31,17 @@ public class SeasonCropHandler
         BlockPos pos = event.getPos();
         World world = event.getWorld();
         Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
-        if (season == Season.WINTER &&
-                (block instanceof IHibernatingCrop && ((IHibernatingCrop)block).shouldHibernate()) &&
-                !TemperatureHelper.isPosClimatisedForTemp(world, pos, new Temperature(1)) &&
-                SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS) && ModConfig.seasons.winterCropDeath
-                ) {
-            event.setResult(Event.Result.DENY);
-        }
+        if (season == Season.WINTER && SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS) ) {
+            if( ModConfig.seasons.winterCropDeath ) {
+                if( (block instanceof IHibernatingCrop && ((IHibernatingCrop)block).shouldHibernate()) &&
+                        !TemperatureHelper.isPosClimatisedForTemp(world, pos, new Temperature(1)) ) {
+                    event.setResult(Event.Result.DENY);
+                }
+            }
+/*            else {
+                // Simply hibernate all crops
+                event.setResult(Event.Result.DENY);
+            } */
+        }                
     }
 }

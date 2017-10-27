@@ -129,7 +129,7 @@ public class ModBlocks
         }
         catch (Exception e)
         {
-            throw new RuntimeException("An error occurred associating an item block during registration...");
+            throw new RuntimeException("An error occurred associating an item block during registration...", e);
         }
     }
 }

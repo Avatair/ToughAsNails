@@ -17,4 +17,6 @@ package toughasnails.api.season;
 public interface IDecayableCrop {
     // Crop will only decay in winter if this returns true
     boolean shouldDecay();
+    // Decayed crop will turn to this specific type
+    int getType();
 }

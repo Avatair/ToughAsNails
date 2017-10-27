@@ -8,7 +8,11 @@
 package toughasnails.season;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBeetroot;
+import net.minecraft.block.BlockCarrot;
+import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.BlockPotato;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -24,6 +28,7 @@ import toughasnails.api.season.Season;
 import toughasnails.api.season.SeasonHelper;
 import toughasnails.api.temperature.Temperature;
 import toughasnails.api.temperature.TemperatureHelper;
+import toughasnails.block.BlockTANDeadCrops;
 import toughasnails.handler.season.SeasonHandler;
 import toughasnails.init.ModConfig;
 
@@ -135,13 +140,21 @@ public class SeasonASMHelper
     {
         Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
         
-        if (season == Season.WINTER &&
-                (block instanceof IDecayableCrop && ((IDecayableCrop)block).shouldDecay()) &&
-                !TemperatureHelper.isPosClimatisedForTemp(world, pos, new Temperature(1)) && 
-                SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS) && ModConfig.seasons.winterCropDeath
-                )
-        {
-            world.setBlockState(pos, TANBlocks.dead_crops.getDefaultState());
-        }
+        if( block instanceof IDecayableCrop ) {
+            IDecayableCrop dc = (IDecayableCrop)block;
+            if (season == Season.WINTER &&
+                    dc.shouldDecay() &&
+                    !TemperatureHelper.isPosClimatisedForTemp(world, pos, new Temperature(1)) && 
+                    SyncedConfig.getBooleanValue(SeasonsOption.ENABLE_SEASONS) && ModConfig.seasons.winterCropDeath
+                    )
+            {
+                int type = dc.getType();
+                world.setBlockState(pos, TANBlocks.dead_crops.getDefaultState().withProperty(BlockTANDeadCrops.TYPE, type));
+            }
+       }
+    }
+    
+    public static int getCropType(Block block) {
+        return SeasonHelper.getTypeFromCrop(block);
     }
 }

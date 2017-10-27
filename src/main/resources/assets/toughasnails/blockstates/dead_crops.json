@@ -1,5 +1,13 @@
 {
     "variants": {
-        "normal": { "model": "toughasnails:dead_crops" }
+        "normal": { "model": "toughasnails:dead_crops" },
+        "type=0": { "model": "toughasnails:dead_crops" },
+        "type=1": { "model": "toughasnails:dead_crops" },
+        "type=2": { "model": "toughasnails:dead_crops" },
+        "type=3": { "model": "toughasnails:dead_crops" },
+        "type=4": { "model": "toughasnails:dead_crops" },
+        "type=5": { "model": "toughasnails:dead_crops" },
+        "type=6": { "model": "toughasnails:dead_crops" },
+        "type=7": { "model": "toughasnails:dead_crops" }
     }
 }
