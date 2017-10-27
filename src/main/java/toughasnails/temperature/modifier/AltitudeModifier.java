@@ -31,7 +31,8 @@ public class AltitudeModifier extends TemperatureModifier
         	newTemperatureLevel -= MathHelper.abs(MathHelper.floor(((64 - player.posY) / 64) * ModConfig.temperature.altitudeModifier) + 1);
 //        	newTemperatureLevel += MathHelper.floor(((float)amountUnderground / 64) * (10 + ModConfig.temperature.altitudeModifier));	// TODO: Make a config out of it! 
         	
-        	float altitudeRatio = ((float)amountUnderground / 64);
+        	float horizont = (float)world.provider.getHorizon();
+        	float altitudeRatio = ((float)amountUnderground / horizont);
         	newTemperatureLevel = (int)(22.0f + ((float)newTemperatureLevel - 22.0f) * (1 - altitudeRatio));
         }
         

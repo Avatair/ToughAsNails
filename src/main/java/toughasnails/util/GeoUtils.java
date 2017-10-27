@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 
@@ -44,7 +45,7 @@ public class GeoUtils {
 		int amountUnderground = getAmountUnderOverhang(world, player);
 		if( amountUnderground <= 5 )
 			return 0;
-		return amountUnderground;
+		return Math.min(amountUnderground - 5, (int)worldProvider.getHorizon() - player.getPosition().getY());
 	}
 
 	public static int getAmountUnderOverhang(World world, EntityPlayer player) {
