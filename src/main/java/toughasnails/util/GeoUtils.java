@@ -1,6 +1,10 @@
 package toughasnails.util;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFence;
+import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPane;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -25,16 +29,32 @@ public class GeoUtils {
                         break;
                     pos.setY(iY);
                     IBlockState state = world.getBlockState(pos);
-                    if( state.getBlock() instanceof BlockLeaves )
-                        continue;
-                    if( state.isOpaqueCube() )
+                    if( isBlockRoof(world, pos, state) )
                         break;
+//                    if( state.getBlock() instanceof BlockLeaves )
+//                        continue;
+//                    if( state.isOpaqueCube() )
+//                        break;
                 }
                 if( iY < playerPos.getY() + 2 )
                     return false;
             }
         }
         
+        return true;
+	}
+	
+	public static boolean isBlockRoof(World world, BlockPos pos, IBlockState state ) {
+	    Block block = state.getBlock(); 
+        if( block instanceof BlockLeaves )
+            return false;
+        
+        if( state.isOpaqueCube() )
+            return true;
+        if( block.isPassable(world, pos) )
+            return false;   // Like snow, open trap doors
+        if( block instanceof BlockFence || block instanceof BlockFenceGate || block instanceof BlockPane )
+            return false;   // Any sort of fences and iron bars
         return true;
 	}
 	
