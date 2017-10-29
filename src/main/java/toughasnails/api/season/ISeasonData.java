@@ -70,4 +70,13 @@ public interface ISeasonData
      * @return The current season
      */
     Season getSeason();
+
+    /**
+     * Gets the amount of days left for the actual sub season.
+     * 
+     * @return the amount of days.
+     * 
+     * @return
+     */
+    int getSubSeasonDaysLeft();
 }

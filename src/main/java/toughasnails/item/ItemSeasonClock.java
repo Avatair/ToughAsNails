@@ -9,14 +9,23 @@ package toughasnails.item;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import toughasnails.api.season.ISeasonData;
+import toughasnails.api.season.Season.SubSeason;
 import toughasnails.api.season.SeasonHelper;
 import toughasnails.season.SeasonTime;
 
@@ -86,5 +95,21 @@ public class ItemSeasonClock extends Item
                 return this.field_185088_a;
             }
         });
+    }
+    
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+    {
+        ItemStack stack = player.getHeldItem(hand);
+        
+        ISeasonData data = SeasonHelper.getSeasonData(world);
+        SubSeason subSeason = data.getSubSeason();
+        
+        if( world.isRemote ) {
+            String seasonName = I18n.translateToLocal("season.name." + subSeason.name().toLowerCase() );
+            player.sendMessage(new TextComponentTranslation("item.season_clock.message", seasonName, Integer.toString(data.getSubSeasonDaysLeft())));
+        }
+        
+        return new ActionResult(EnumActionResult.SUCCESS, stack);
     }
 }

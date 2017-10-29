@@ -67,6 +67,15 @@ public final class SeasonTime implements ISeasonData
         int index = (this.time / getSubSeasonDuration()) % SubSeason.values().length;
         return SubSeason.values()[index];
     }
+    
+    @Override
+    public int getSubSeasonDaysLeft() {
+        int subSeasonDur = getSubSeasonDuration();
+        int yearIndex = this.time / subSeasonDur;
+        int daysLeft = (subSeasonDur - (this.time - yearIndex * subSeasonDur)) / getDayDuration();
+        
+        return daysLeft;
+    }
 
     @Override
     public Season getSeason()

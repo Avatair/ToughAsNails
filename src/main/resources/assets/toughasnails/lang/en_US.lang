@@ -15,6 +15,19 @@ achievement.year_one.desc=Survive a full year!
 achievement.life_or_death=Life or Death
 achievement.life_or_death.desc=Search Nether Fortresses for loot to increase your health!
 
+season.name.early_spring=Early Spring
+season.name.mid_spring=Mid Spring
+season.name.late_spring=Late Spring
+season.name.early_summer=Early Summer
+season.name.mid_summer=Mid Summer
+season.name.late_summer=Late Summer
+season.name.early_autumn=Early Autumn
+season.name.mid_autumn=Mid Autumn
+season.name.late_autumn=Late Autumn
+season.name.early_winter=Early Winter
+season.name.mid_winter=Mid Winter
+season.name.late_winter=Late Winter
+
 commands.toughasnails.usage=/toughasnails <tempinfo|settemp|setseason> [args]
 commands.toughasnails.settemp.success=Set player temperature to %s
 commands.toughasnails.settemp.disabled=Body Temperature is currently disabled!
@@ -71,6 +84,7 @@ item.juice_pumpkin.name=Pumpkin Juice
 item.lifeblood_crystal.name=Lifeblood Crystal
 item.respirator.name=Respirator
 item.season_clock.name=Season Clock
+item.season_clock.message=Current season is %s. %s more days left.
 item.spawn_egg_freeze.name=Spawn Freeze
 item.tan_icon.name=TAN Icon
 item.thermometer.name=Thermometer
