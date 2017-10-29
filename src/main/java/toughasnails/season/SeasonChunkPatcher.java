@@ -126,8 +126,8 @@ public class SeasonChunkPatcher
             while (activeChunkIter.hasNext())
             {
                 ActiveChunk ac = activeChunkIter.next().getValue();
-                if (ac.getWorld() != world)
-                    continue;
+//                if (ac.getWorld() != world)
+//                    continue;
                 if (!ac.isVisited())
                 {
                     // Wait for discount and then remove
