@@ -1,5 +1,6 @@
 package toughasnails.handler.season;
 
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
@@ -15,9 +16,8 @@ public class SeasonChunkPatchingHandler
 {
 
     @SubscribeEvent
-    public void chunkDataLoad(ChunkDataEvent.Load event)
+    public void chunkDataLoad(ChunkEvent.Load event)
     {
-        // TODO: Use ChunkEvent.Load instead ?
         if (event.getWorld().isRemote)
             return;
         SeasonChunkPatcher patcher = SeasonHandler.getSeasonChunkPatcher();
@@ -26,6 +26,8 @@ public class SeasonChunkPatchingHandler
         if (chunk.isTerrainPopulated())
         {
             patcher.enqueueChunkOnce(chunk);
+            patcher.notifyLoadedAndPopulated(chunk.getWorld(), chunk.getPos());
+//TODO            patcher.enqueueGeneratedNeighborChunks(chunk.getWorld(), chunk.xPosition, chunk.zPosition);
         }
     }
     
@@ -49,9 +51,12 @@ public class SeasonChunkPatchingHandler
             return;
         SeasonChunkPatcher patcher = SeasonHandler.getSeasonChunkPatcher();
 
-        Chunk chunk = world.getChunkFromChunkCoords(event.getChunkX(), event.getChunkZ());
-        patcher.enqueueChunkOnce(chunk);
-        patcher.enqueueGeneratedNeighborChunks(world, event.getChunkX(), event.getChunkZ());
+        ChunkPos pos = new ChunkPos(event.getChunkX(), event.getChunkZ());
+        patcher.enqueueChunkOnce(world, pos);
+        patcher.notifyLoadedAndPopulated(world, pos);
+        
+        // TODO: Remove the one below as soon as notifyLoadedAndPopulated is implemented
+//        patcher.enqueueGeneratedNeighborChunks(world, pos);
     }
 
     @SubscribeEvent
