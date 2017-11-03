@@ -11,6 +11,7 @@ import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.ItemStack;
@@ -39,6 +40,8 @@ public class FillBottleHandler
 
         if (stack.getItem().equals(Items.GLASS_BOTTLE) && SyncedConfig.getBooleanValue(GameplayOption.ENABLE_THIRST))
         {
+        	// if( event.get event.getPos() )
+        	
             int originalCount = stack.getCount();
             // Trick onItemRightClick into not adding any water bottles into the player's inventory
             stack.setCount(1);
@@ -86,7 +89,7 @@ public class FillBottleHandler
         EntityPlayer player = event.getEntityPlayer();
         IBlockState state = world.getBlockState(event.getPos());
         
-        if (state.getBlock() instanceof BlockCauldron && player.getHeldItem(event.getHand()).getItem() == Items.GLASS_BOTTLE && SyncedConfig.getBooleanValue(GameplayOption.ENABLE_THIRST))
+        if (state.getBlock() == Blocks.CAULDRON && player.getHeldItem(event.getHand()).getItem() == Items.GLASS_BOTTLE && SyncedConfig.getBooleanValue(GameplayOption.ENABLE_THIRST))
         {
             BlockCauldron cauldron = (BlockCauldron)state.getBlock();
             int level = ((Integer)state.getValue(BlockCauldron.LEVEL));
