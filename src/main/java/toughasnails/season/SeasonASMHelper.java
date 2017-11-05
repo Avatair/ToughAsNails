@@ -13,6 +13,7 @@ import net.minecraft.block.BlockCarrot;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockPotato;
+import net.minecraft.block.BlockStem;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -139,6 +140,15 @@ public class SeasonASMHelper
     public static void onUpdateTick(Block block, World world, BlockPos pos)
     {
         Season season = SeasonHelper.getSeasonData(world).getSubSeason().getSeason();
+        
+        // BlockStem alters the position. Ignore, if block is invalid at pos
+        if( block instanceof BlockStem ) {
+            // NOTE: Hack is valid. Don't care if pos is not original, e.g. when planting more pumpkins or melons next to each other,
+            //       The pos should point at least to a BlockStem.
+            IBlockState state = world.getBlockState(pos);
+            if( state.getBlock() != block )
+                return; // Reject it.
+        }
         
         if( block instanceof IDecayableCrop ) {
             IDecayableCrop dc = (IDecayableCrop)block;
