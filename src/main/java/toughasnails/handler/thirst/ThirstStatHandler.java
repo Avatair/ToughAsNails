@@ -92,7 +92,7 @@ public class ThirstStatHandler
                     
                     if (attackDamage > 0.0F || weaponAttackDamage > 0.0F)
                     {
-                        boolean canAttack = target.attackEntityFrom(DamageSource.causePlayerDamage(player), 0.0F);
+                        boolean canAttack = true; // target.attackEntityFrom(DamageSource.causePlayerDamage(player), 0.0F);
                         
                         if (canAttack)
                         {
